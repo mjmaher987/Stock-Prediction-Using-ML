@@ -1,16 +1,41 @@
 import os
 import sys
+from copy import deepcopy
 
 import keras
 import numpy as np
 import tensorflow as tf
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 
-def predict(models, index):
-    for model in models:
-        model.predict()
+from tradingview_feed import TvDatafeed, Interval
 
-def live_trade(models, index):
-    pass
+
+def predict(models, data):
+    scaler = MinMaxScaler()
+    data['close'] = scaler.fit_transform(data['close'].values.reshape(-1, 1))
+    X = []
+    window_size = 5
+    for i in range(len(data) - window_size):
+        X.append(data['close'][i:i+window_size])
+    X = np.array(X)
+
+    X2 = data[['open', 'high', 'low', 'volume']].values
+    X2 = scaler.fit_transform(X2)
+    X2 = X2.reshape(X2.shape[0], X2.shape[1], 1)
+
+    for (i, model) in enumerate(models):
+        try:
+            prediction = model.predict(X)
+        except ValueError:
+            prediction = model.predict(X2)
+        print(f'{i+1}th model result:')
+        print('The sequence of price will probably look like this;')
+        print(prediction)
+        # time_series = [d[0] for d in prediction[0]]
+        # for i in range(1, len(prediction)):
+        #     time_series.append(prediction[i][-1][0])
+        # print(time_series)
 
 if __name__ == '__main__':
     print('Welcome to the TradingHelper bot!')
@@ -28,8 +53,9 @@ if __name__ == '__main__':
     except IndexError:
         bot_option = None
 
-    if (bot_option is None) or (bot_option not in ['predict', 'live']):
-        print('You must choose one of two options: [predict, live]\nPlease try again.')
+    if (bot_option is None) or (bot_option != 'predict'):
+        print('Currently TradingHelper bot will only help you predict prices.')
+        print('Requested option is not available, please try again.')
         exit(1)
 
     print('Please enter the name of desired models to infer from:')
@@ -49,7 +75,40 @@ if __name__ == '__main__':
         else:
             print(f'Currently the requested "{model}" model is not supported by the bot')
 
+    print('Please enter the index you want prediction of:')
+    index = input()
+    market_data = {
+        'FX': ['EURUSD', 'XAUUSD', 'GBPUSD', 'USDCAD'],
+        'CRYPTO': ['BTCUSD', 'ETHUSD'],
+        'NASDAQ': ['AAPL', 'AMZN'],
+    }
+    
+    market = None
+
+    for key in market_data:
+        if index in market_data.get(key):
+            market = key
+            break
+    
+    if market is None:
+        print('Please enter a valid index to infer from')
+        exit(1)
+
+    # download data for the index
+    tv = TvDatafeed()
+    # print(tv.get_hist("CRUDEOIL", "MCX", fut_contract=1))
+    # print(tv.get_hist("NIFTY", "NSE", fut_contract=1))
+
+    data_path = f'./data/{market}_{index}_5min.csv'
+    tv.get_hist(
+        index,
+        market,
+        interval=Interval.in_5_minute,
+        n_bars=20,
+        extended_session=False,
+    ).to_csv(data_path)
+
+    data = pd.read_csv(data_path)
+
     if bot_option == 'predict':
-        predict(models, 'EURUSD')
-    elif bot_option == 'live':
-        live_trade(models, 'EURUSD')
+        predict(models, data)
