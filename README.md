@@ -24,4 +24,4 @@ V.	Milestone 5: Discussion of Results and Conclusion (Week 5)
 - [ ]	Discuss the models' suitability for stock and currency price prediction in different market conditions.
 - [ ]	Address potential limitations and challenges encountered during the research.
 - [ ]	Summarize key findings and emphasize the model that demonstrated superior performance.
-- [ ]	Draw conclusions, discuss implications, and suggest future research directions.
+- [x]	Draw conclusions, discuss implications, and suggest future research directions.
