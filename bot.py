@@ -11,31 +11,20 @@ from sklearn.preprocessing import MinMaxScaler
 from tradingview_feed import TvDatafeed, Interval
 
 
-def predict(models, data):
-    scaler = MinMaxScaler()
-    data['close'] = scaler.fit_transform(data['close'].values.reshape(-1, 1))
-    X = []
-    window_size = 5
-    for i in range(len(data) - window_size):
-        X.append(data['close'][i:i+window_size])
-    X = np.array(X)
-
-    X2 = data[['open', 'high', 'low', 'volume']].values
-    X2 = scaler.fit_transform(X2)
-    X2 = X2.reshape(X2.shape[0], X2.shape[1], 1)
-
+def predict(models, bot_data):
     for (i, model) in enumerate(models):
-        try:
-            prediction = model.predict(X)
-        except ValueError:
-            prediction = model.predict(X2)
-        print(f'{i+1}th model result:')
-        print('The sequence of price will probably look like this;')
-        print(prediction)
-        # time_series = [d[0] for d in prediction[0]]
-        # for i in range(1, len(prediction)):
-        #     time_series.append(prediction[i][-1][0])
-        # print(time_series)
+        predicted_data = deepcopy(bot_data)
+        for _ in range(3):
+            prediction = model.predict([predicted_data])
+            predicted_data.append(prediction[0])
+            predicted_data = predicted_data[1:]
+        cur_price = bot_data[-1][1]
+        future_price = prediction[0][1]
+        print(f'{i+1}th model result: ', end="")
+        if future_price > cur_price:
+            print('Buy')
+        else:
+            print('Sell')
 
 if __name__ == '__main__':
     print('Welcome to the TradingHelper bot!')
@@ -104,11 +93,15 @@ if __name__ == '__main__':
         index,
         market,
         interval=Interval.in_5_minute,
-        n_bars=20,
+        n_bars=10,
         extended_session=False,
     ).to_csv(data_path)
 
     data = pd.read_csv(data_path)
+    # print(data)
+    bot_data = []
+    for i in range(10):
+        bot_data.append([data['open'][i], data['high'][0], data['low'][0], data['close'][i], data['volume'][i]])
 
     if bot_option == 'predict':
-        predict(models, data)
+        predict(models, bot_data)
