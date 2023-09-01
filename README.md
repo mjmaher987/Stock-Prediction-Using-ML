@@ -17,10 +17,10 @@ III.	Milestone 3: Model Training and Validation (Week 3)
   
 IV.	Milestone 4: Model Evaluation and Comparative Analysis (Week 4)
 - [x]	Evaluate the predictive accuracy of each model using evaluation metrics such as MSE, RMSE, and MAE.
-- [ ]	Conduct a comprehensive comparative analysis to identify the most accurate and reliable model.
+- [x]	Conduct a comprehensive comparative analysis to identify the most accurate and reliable model.
   
 V.	Milestone 5: Discussion of Results and Conclusion (Week 5)
-- [ ]	Present the findings of the comparative analysis, highlighting the strengths and weaknesses of each model.
+- [x]	Present the findings of the comparative analysis, highlighting the strengths and weaknesses of each model.
 - [ ]	Discuss the models' suitability for stock and currency price prediction in different market conditions.
 - [ ]	Address potential limitations and challenges encountered during the research.
 - [ ]	Summarize key findings and emphasize the model that demonstrated superior performance.
