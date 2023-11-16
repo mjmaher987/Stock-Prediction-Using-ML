@@ -1,6 +1,72 @@
-# Stock-Prediction-Using-ML
-Predicting Stock and Currency Prices Using Machine Learning and Artificial Intelligence Tools
+# Machine Learning Methods in Algorithmic Trading
+This is the code and documentation for the paper "Machine Learning Methods in Algorithmic Trading: An Experimental Evaluation of Supervised Learning Techniques for Stock Price".
 
+## Authors
+- Mohammad Javad Maheronnaghsh
+- Mohammad Mahdi Gheidi
+- Abolfazl Younesi
+- MohammadAmin Fazli
+
+
+## Introduction
+This paper explores using machine learning techniques like RNN, LSTM, NBeats, NHits and Transformer models for stock price prediction and algorithmic trading. The models are trained and evaluated on historical pricing data. A trading bot is also implemented to utilize the predictions.
+
+- The key goals of the paper are:
+    - Evaluate and compare different ML models for financial time series forecasting
+    - Identify the most accurate models for stock price prediction
+    - Implement a trading bot to leverage predictions for automated trading
+
+## Models
+The following supervised learning models are implemented:
+
+- Recurrent Neural Network (RNN)
+- Long Short-Term Memory (LSTM)
+- NBeats
+- NHits
+- Transformer
+The models are implemented in TensorFlow and Keras.
+
+## Data
+The dataset used is daily closing prices for the EUR/USD currency pair obtained from yfinance API.
+
+The data is split 80/20 into train and test sets. It is preprocessed by reshaping into input/output samples and normalizing to [0,1].
+
+## Usage
+
+The model training and evaluation scripts are located in the `src` folder:
+
+- `train.py` - Trains a model
+- `evaluate.py` - Evaluates a trained model on the test set
+- `trading_bot.py` - Trading bot implementation
+**Example usage:**
+
+```bash
+# Train LSTM model
+python train.py --model lstm
+
+# Evaluate NBeats model 
+python evaluate.py --model nbeats
+
+# Train LSTM model 
+python train.py --model lstm 
+
+# Evaluate NBeats model
+python evaluate.py --model nbeats
+```
+
+## Results
+The NBeats and NHits models achieve the lowest errors, indicating good performance even with limited data. Transformer requires more data to reach full potential.
+
+## Citation
+
+```bash
+@article{maheronnaghsh2023machine,
+  title={Machine Learning Methods in Algorithmic Trading: An Experimental Evaluation of Supervised Learning Techniques for Stock Price},
+  author={Maheronnaghsh, Mohammad Javad and others},
+  journal={preprint},
+  year={2023}
+}
+```
 
 ## Milestones
 I.	Milestone 1: Data Collection and Preprocessing (Week 1)
@@ -21,7 +87,7 @@ IV.	Milestone 4: Model Evaluation and Comparative Analysis (Week 4)
   
 V.	Milestone 5: Discussion of Results and Conclusion (Week 5)
 - [x]	Present the findings of the comparative analysis, highlighting the strengths and weaknesses of each model.
-- [ ]	Discuss the models' suitability for stock and currency price prediction in different market conditions.
-- [ ]	Address potential limitations and challenges encountered during the research.
-- [ ]	Summarize key findings and emphasize the model that demonstrated superior performance.
+- [x]	Discuss the models' suitability for stock and currency price prediction in different market conditions.
+- [x]	Address potential limitations and challenges encountered during the research.
+- [x]	Summarize key findings and emphasize the model that demonstrated superior performance.
 - [x]	Draw conclusions, discuss implications, and suggest future research directions.
