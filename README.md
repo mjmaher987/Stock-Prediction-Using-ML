@@ -1,5 +1,8 @@
 # Machine Learning Methods in Algorithmic Trading
+![image](https://github.com/mjmaher987/Stock-Prediction-Using-ML/assets/77095635/7f2b238c-e7cd-49e0-8296-1ecc11067d01)
+
 This is the code and documentation for the paper "Machine Learning Methods in Algorithmic Trading: An Experimental Evaluation of Supervised Learning Techniques for Stock Price".
+You can find the preprint version of the document [here](https://www.semanticscholar.org/paper/Machine-Learning-Methods-in-Algorithmic-Trading%3A-An-Maheronnaghsh-Gheidi/b38bd681506876c31344478ebcf3bbe517f8caab).
 
 ## Authors
 - Mohammad Javad Maheronnaghsh
@@ -57,6 +60,8 @@ python evaluate.py --model nbeats
 ## Results
 The NBeats and NHits models achieve the lowest errors, indicating good performance even with limited data. Transformer requires more data to reach full potential.
 
+## References
+- [Link 1](https://www.colocationamerica.com/wp-content/uploads/2022/07/witdod1.jpg)
 ## Citation
 
 ```bash
